@@ -6,7 +6,10 @@ import main.sun.bld.server.common.ConnectionJdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SUN on 2017/3/8.
@@ -35,5 +38,38 @@ public class AddressImpl implements AddressDao{
         }
 
         return result;
+    }
+
+    public List<Address> getAllAddressByUserName(String userName)
+    {
+        List<Address> addressList = new ArrayList<Address>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        String sql = "select * from address where user_name=?";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, userName);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Address address = new Address();
+                address.setAddressID(rs.getInt("address_id"));
+                address.setAddress(rs.getString("address"));
+                address.setUserName(rs.getString("user_name"));
+                address.setRecipients(rs.getString("recipients"));
+                address.setPostcode(rs.getString("postcode"));
+
+                addressList.add(address);
+            }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return addressList;
     }
 }

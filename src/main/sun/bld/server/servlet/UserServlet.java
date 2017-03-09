@@ -169,8 +169,9 @@ public class UserServlet extends HttpServlet {
             {
                 if(user.getPassword().equals(password))
                 {
-                     apiResponse.setCode("200");
-                     apiResponse.setMsg("success");
+                    apiResponse.setCode("200");
+                    apiResponse.setMsg("success");
+                    apiResponse.setData(user);
                  }else
                   {
                       apiResponse.setCode("202");

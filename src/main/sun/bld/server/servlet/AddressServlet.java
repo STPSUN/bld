@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by SUN on 2017/3/8.
@@ -30,11 +31,44 @@ public class AddressServlet extends HttpServlet {
         {
             doAddAddress(request, response);
         }
+        if("getAllAddress".equals(action))
+        {
+            doGetAllAddress(request, response);
+        }
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
+    }
+
+    private void doGetAllAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String userName = request.getParameter("userName");
+        ApiResponse apiResponse = new ApiResponse();
+
+        if(!userName.isEmpty())
+        {
+            List<Address> addressList = addressService.getAllAddressByUserName(userName);
+            if(addressList != null)
+            {
+                apiResponse.setCode("200");
+                apiResponse.setData(addressList);
+                apiResponse.setMsg("success");
+            }else
+            {
+                apiResponse.setCode("201");
+                apiResponse.setMsg("该用户暂无数据");
+            }
+        }else
+        {
+            apiResponse.setCode("201");
+            apiResponse.setMsg("请求体参数不能为空");
+        }
+
+        JSONObject json = JSONObject.fromObject(apiResponse);
+        request.setAttribute("getAllAddress", json);
+        request.getRequestDispatcher("/WEB-INF/pages/getAllAddress.jsp").forward(request, response);
     }
 
     private void doAddAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

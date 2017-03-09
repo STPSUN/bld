@@ -35,15 +35,23 @@ public class testMain {
 //        test.getAllProductByState();
 //        test.addProduct();
 //        test.modifyUser();
-        test.addAddress();
+//        test.addAddress();
+        test.getAllAddressByUserName();
+    }
 
-
+    public void getAllAddressByUserName()
+    {
+        List<Address> addressList = addressService.getAllAddressByUserName("332");
+        for(int i = 0; i < addressList.size(); i++)
+        {
+            System.out.println(addressList.get(i).getAddress() + " " + addressList.get(i).getAddressID());
+        }
     }
 
     public void addAddress()
     {
         Address address = new Address();
-        address.setUserName("111");
+        address.setUserName("332");
         address.setAddress("ada");
         address.setPostcode("832");
         address.setRecipients("sun");

@@ -8,6 +8,15 @@ public class Address {
     private String address;
     private String postcode;
     private String recipients;
+    private int addressID;
+
+    public int getAddressID() {
+        return addressID;
+    }
+
+    public void setAddressID(int addressID) {
+        this.addressID = addressID;
+    }
 
     public String getUserName() {
         return userName;
