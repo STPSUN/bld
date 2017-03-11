@@ -35,11 +35,39 @@ public class AddressServlet extends HttpServlet {
         {
             doGetAllAddress(request, response);
         }
+        if("deleteAddress".equals(action))
+        {
+            doDeleteAddress(request, response);
+        }
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
+    }
+
+    private void doDeleteAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String userName = request.getParameter("userName");
+        String id = request.getParameter("addressID");
+        int addressID = Integer.parseInt(id);
+
+        ApiResponse apiResponse = new ApiResponse();
+
+        if(!userName.isEmpty() && !id.isEmpty())
+        {
+            addressService.deleteAddressByUserNameAndAddressID(userName, addressID);
+            apiResponse.setCode("200");
+            apiResponse.setMsg("success");
+        }else
+        {
+            apiResponse.setCode("201");
+            apiResponse.setMsg("false");
+        }
+
+        JSONObject json = JSONObject.fromObject(apiResponse);
+        request.setAttribute("deleteAddress", json);
+        request.getRequestDispatcher("/WEB-INF/pages/deleteAddress.jsp").forward(request, response);
     }
 
     private void doGetAllAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

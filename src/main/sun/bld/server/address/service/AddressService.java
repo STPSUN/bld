@@ -11,4 +11,8 @@ public interface AddressService {
     public void addAddress(Address address);
 
     public List<Address> getAllAddressByUserName(String userName);
+
+    public void deleteAddressByUserNameAndAddressID(String userName, int addressID);
+
+    public Address getAddressByAddressID(int addressID);
 }

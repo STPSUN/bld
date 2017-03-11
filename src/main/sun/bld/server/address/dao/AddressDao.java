@@ -11,4 +11,8 @@ public interface AddressDao {
     public boolean addAddress(Address address);
 
     public List<Address> getAllAddressByUserName(String userName);
+
+    public void deleteAddressByUserNameAndAddressID(String userName, int addreddID);
+
+    public Address getAddressByAddressID(int addressID);
 }

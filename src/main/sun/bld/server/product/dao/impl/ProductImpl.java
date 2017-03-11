@@ -221,6 +221,40 @@ public class ProductImpl implements ProductDao{
         return product;
     }
 
+    public Product getProductByProductName(String productName)
+    {
+        Product product = null;
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from product where product_name= ?";
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, productName);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                product = new Product();
+                product.setProductName(productName);
+                product.setProductID(rs.getInt("product_id"));
+                product.setCategorys(rs.getString("categorys"));
+//                product.setProductName(rs.getString("product_name"));
+                product.setPrice(rs.getDouble("price"));
+                product.setProductNumber(rs.getInt("product_number"));
+                product.setProductDetail(rs.getString("product_detail"));
+                product.setProductImg(rs.getString("product_img"));
+                product.setProductState(rs.getString("product_state"));
+                product.setCategorysImg(rs.getString("categorys_img"));
+            }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return product;
+    }
+
 }
 
 

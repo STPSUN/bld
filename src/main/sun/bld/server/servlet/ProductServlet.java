@@ -47,11 +47,43 @@ public class ProductServlet extends HttpServlet {
         {
             doProductByCategorys(request, response);
         }
+        if(action.equals("productByProductName"))
+        {
+            doGetProdutByProductName(request, response);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
 
+    }
+
+    private void doGetProdutByProductName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String productName = request.getParameter("productName");
+        ApiResponse apiResponse = new ApiResponse();
+
+        if (!productName.isEmpty())
+        {
+            Product product = productService.getProductByProductName(productName);
+            if(product != null)
+            {
+                apiResponse.setCode("200");
+                apiResponse.setMsg("success");
+                apiResponse.setData(product);
+            }else
+            {
+                apiResponse.setCode("201");
+                apiResponse.setMsg("未找到该商品");
+            }
+        }else
+        {
+            apiResponse.setCode("201");
+            apiResponse.setMsg("请求体参数不能为空");
+        }
+
+        JSONObject json = JSONObject.fromObject(apiResponse);
+        request.setAttribute("findProductByProductName", json);
+        request.getRequestDispatcher("/WEB-INF/pages/findProductByProductName.jsp").forward(request, response);
     }
 
     private void doProductByCategorys(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

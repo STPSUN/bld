@@ -21,4 +21,6 @@ public interface ProductDao {
     public List<ProductCategorys> getAllProductCategorys();
 
     public Product getProductByProductID(int productID);
+
+    public Product getProductByProductName(String productName);
 }

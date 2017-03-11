@@ -9,6 +9,8 @@
 <html>
   <head>
     <title>$Title$</title>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/order.js"></script>
   </head>
   <body>
   $END$

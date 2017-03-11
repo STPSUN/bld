@@ -19,6 +19,10 @@
         <servlet-name>AddressServlet</servlet-name>
         <servlet-class>main.sun.bld.server.servlet.AddressServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrdersServlet</servlet-name>
+        <servlet-class>main.sun.bld.server.servlet.OrdersServlet</servlet-class>
+    </servlet>
 <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/api/users</url-pattern>
@@ -34,5 +38,9 @@
     <servlet-mapping>
         <servlet-name>AddressServlet</servlet-name>
         <url-pattern>/api/address</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrdersServlet</servlet-name>
+        <url-pattern>/api/orders</url-pattern>
     </servlet-mapping>
 </web-app>

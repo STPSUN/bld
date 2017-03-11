@@ -22,4 +22,14 @@ public class AddressServiceImpl implements AddressService{
 
         return addressList;
     }
+
+    public void deleteAddressByUserNameAndAddressID(String userName, int addressID)
+    {
+        addressImpl.deleteAddressByUserNameAndAddressID(userName, addressID);
+    }
+
+    public Address getAddressByAddressID(int addressID)
+    {
+        return addressImpl.getAddressByAddressID(addressID);
+    }
 }

@@ -4,11 +4,15 @@ import main.sun.bld.server.address.model.Address;
 import main.sun.bld.server.address.service.impl.AddressServiceImpl;
 import main.sun.bld.server.cart.model.Cart;
 import main.sun.bld.server.cart.service.impl.CartServiceImpl;
+import main.sun.bld.server.order.model.*;
+import main.sun.bld.server.order.service.impl.OrderServiceImpl;
 import main.sun.bld.server.product.model.Product;
 import main.sun.bld.server.product.model.ProductCategorys;
 import main.sun.bld.server.product.service.ProductService.impl.ProductServiceImpl;
 import main.sun.bld.server.user.model.User;
 import main.sun.bld.server.user.service.impl.UserServiceImpl;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,7 @@ public class testMain {
     private ProductServiceImpl productService = new ProductServiceImpl();
     private CartServiceImpl cartService = new CartServiceImpl();
     private AddressServiceImpl addressService = new AddressServiceImpl();
+    private OrderServiceImpl orderService = new OrderServiceImpl();
     public static void main(String[] args)
     {
         System.out.println("hello");
@@ -36,7 +41,160 @@ public class testMain {
 //        test.addProduct();
 //        test.modifyUser();
 //        test.addAddress();
-        test.getAllAddressByUserName();
+//        test.getAllAddressByUserName();
+//        test.deleteAddress();
+//        test.getProductByProductName();
+//        test.addOrder();
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println(df.format(new Date()));
+//        test.getAllOrders();
+//        test.getOrders();
+        test.getAddressByAddressID();
+    }
+
+    public void getAddressByAddressID()
+    {
+        Address address = addressService.getAddressByAddressID(1);
+        System.out.println(address.getAddress() + " " + address.getUserName());
+    }
+
+    public void getOrders()
+    {
+        String userName = "18459159891";
+        String orderID = "000000005abde16d015abdef466b0003";
+        Order order = orderService.getOrderByUserNameAndOrderID(userName, orderID);
+        System.out.println(order.getOrderID() + " " + order.getOrderState());
+    }
+
+    public void getAllOrders()
+    {
+        List<Order> orderList = orderService.getAllOrdersByUserName("18459159891");
+        List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+        List<AllOrders> allOrdersList = new ArrayList<AllOrders>();
+        String orderIDTest = "";
+        String orderID = "";
+        String userName = "";
+        int productID = 0;
+        int buyNumber = 0;
+        String address = "";
+        int addressID = 0;
+        for(int i = 0; i < orderList.size(); i++)
+        {
+            orderID = orderList.get(i).getOrderID();
+            userName = orderList.get(i).getUserName();
+            productID = orderList.get(i).getProductID();
+            buyNumber = orderList.get(i).getBuyNumber();
+            addressID = orderList.get(i).getAddressID();
+            String orderState = orderList.get(i).getOrderState();
+            String orderTime = orderList.get(i).getOrderTime();
+            if(orderID.equals(orderIDTest))
+            {
+
+
+            }else
+            {
+                Product product = productService.getProductByProductID(productID);
+                OrderProduct orderProduct = new OrderProduct();
+                orderProduct.setBuyNumber(buyNumber);
+                orderProduct.setPrice(product.getPrice());
+                orderProduct.setProductDetail(product.getProductDetail());
+                orderProduct.setProductID(product.getProductID());
+                orderProduct.setProductImg(product.getProductImg());
+                orderProduct.setProductName(product.getProductName());
+
+                orderProductList.add(orderProduct);
+
+                Address address1 = addressService.getAddressByAddressID(addressID);
+                address = address1.getAddress();
+                String recipients = address1.getRecipients();
+
+                AllOrders allOrders = new AllOrders();
+                allOrders.setAddress(address);
+                allOrders.setRecipients(recipients);
+                allOrders.setOrderID(orderID);
+                allOrders.setOrderState(orderState);
+                allOrders.setOrderTime(orderTime);
+                allOrders.setOrderProductList(orderProductList);
+
+                allOrdersList.add(allOrders);
+            }
+        }
+    }
+
+    public void addOrder()
+    {
+        AddOrder addOrder = new AddOrder();
+        List<AddOrderData> addOrderDataList = new ArrayList<AddOrderData>();
+        for(int i = 0; i < 2; i++)
+        {
+            AddOrderData addOrderData = new AddOrderData();
+            addOrderData.setBuyNumber(i);
+            addOrderData.setProductID(i);
+            addOrderDataList.add(addOrderData);
+        }
+        addOrder.setUserName("18850705207");
+        addOrder.setAddressID(13);
+        addOrder.setAddOrderData(addOrderDataList);
+
+//        JSONArray array = JSONArray.fromObject(addOrderDataList);
+//        for (int i = 0; i < array.size(); i++)
+//        {
+//            AddOrderData addOrderData = new AddOrderData();
+//        }
+//        addOrder.setAddOrderData(array);
+
+        JSONObject json = JSONObject.fromObject(addOrder);
+        System.out.println(json);
+        String userName = json.getString("userName");
+        int addressID = json.getInt("addressID");
+        JSONArray data = json.getJSONArray("addOrderData");
+        String test = data.toString();
+        JSONArray data2 = JSONArray.fromObject(test);
+//        System.out.println(data2);
+//        for(int i = 0; i < data2.size(); i++)
+//        {
+//            JSONObject jsonItem = data2.getJSONObject(i);
+//            System.out.println(jsonItem.getInt("productID"));
+//        }
+
+//        System.out.println(array);
+//        AddOrder addOrder2 = new AddOrder();
+//        List<AddOrderData> addOrderDataList2 = new ArrayList<AddOrderData>();
+//        try
+//        {
+//            JSONArray data = json.getJSONArray("addOrderData");
+//            for(int i = 0; i < data.size(); i++)
+//            {
+//                JSONObject jsonItem = data.getJSONObject(i);
+//
+//                AddOrderData addOrderData = new AddOrderData();
+//                addOrderData.setProductID(jsonItem.getInt("productID"));
+//                addOrderData.setBuyNumber(jsonItem.getInt("buyNumber"));
+//                addOrderDataList2.add(addOrderData);
+//            }
+//        }catch (JSONException e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        addOrder2.setUserName(userName);
+//        addOrder2.setAddressID(addressID);
+//        addOrder2.setAddOrderData(addOrderDataList2);
+//
+//        orderService.addOrder(addOrder2);
+
+    }
+
+    public void getProductByProductName()
+    {
+        Product product = productService.getProductByProductName("中华");
+        System.out.println(product.getProductID() + " " + product.getProductName());
+    }
+
+
+    public void deleteAddress()
+    {
+        addressService.deleteAddressByUserNameAndAddressID("1", 2);
     }
 
     public void getAllAddressByUserName()

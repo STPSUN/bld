@@ -59,4 +59,11 @@ public class ProductServiceImpl implements ProductService {
 
         return product;
     }
+
+    public Product getProductByProductName(String productName)
+    {
+        Product product = productImpl.getProductByProductName(productName);
+
+        return product;
+    }
 }
