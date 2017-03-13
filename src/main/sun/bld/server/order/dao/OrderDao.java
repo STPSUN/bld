@@ -12,5 +12,9 @@ public interface OrderDao {
 
     public List<Order> getAllOrdersByUserName(String userName);
 
+    public List<Order> getAllOrderByOrderID(String orderID);
+
     public Order getOrderByUserNameAndOrderID(String userName, String orderID);
+
+    public List<Order> getAllOrdersByOrderIDNotRepetition();
 }

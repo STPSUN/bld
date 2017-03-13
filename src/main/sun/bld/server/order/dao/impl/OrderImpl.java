@@ -58,15 +58,88 @@ public class OrderImpl implements OrderDao{
             while (rs.next())
             {
                 Order order = new Order();
-//                order.setOrderID(rs.getInt("order_id"));
+                order.setUserName(userName);
+                order.setOrderID(rs.getString("order_id"));
                 order.setProductID(rs.getInt("product_id"));
                 order.setOrderTime(rs.getString("order_time"));
                 order.setOrderState(rs.getString("order_state"));
                 order.setBuyNumber(rs.getInt("buy_number"));
-//                order.setAddress(rs.getString("address"));
+                order.setAddressID(rs.getInt("address_id"));
 
                 orderList.add(order);
             }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return orderList;
+    }
+
+    public List<Order> getAllOrderByOrderID(String orderID)
+    {
+        List<Order> orderList = new ArrayList<Order>();
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "select * from orders where order_id=?";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, orderID);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Order order = new Order();
+                order.setOrderID(orderID);
+                order.setProductID(rs.getInt("product_id"));
+                order.setOrderTime(rs.getString("order_time"));
+                order.setOrderState(rs.getString("order_state"));
+                order.setBuyNumber(rs.getInt("buy_number"));
+                order.setAddressID(rs.getInt("address_id"));
+                order.setUserName(rs.getString("user_name"));
+
+                orderList.add(order);
+            }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return orderList;
+    }
+
+
+
+    public List<Order> getAllOrdersByOrderIDNotRepetition()
+    {
+        List<Order> orderList = new ArrayList<Order>();
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "select * from orders group by order_id";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Order order = new Order();
+                order.setAddressID(rs.getInt("address_id"));
+                order.setProductID(rs.getInt("product_id"));
+                order.setOrderState(rs.getString("order_state"));
+                order.setOrderTime(rs.getString("order_time"));
+                order.setUserName(rs.getString("user_name"));
+                order.setBuyNumber(rs.getInt("buy_number"));
+                order.setOrderID(rs.getString("order_id"));
+
+                orderList.add(order);
+            }
+
         }catch (SQLException e)
         {
             e.printStackTrace();

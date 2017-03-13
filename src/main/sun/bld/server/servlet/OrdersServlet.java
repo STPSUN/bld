@@ -3,7 +3,7 @@ package main.sun.bld.server.servlet;
 import main.sun.bld.server.api.model.ApiResponse;
 import main.sun.bld.server.order.model.AddOrder;
 import main.sun.bld.server.order.model.AddOrderData;
-import main.sun.bld.server.order.model.Order;
+import main.sun.bld.server.order.model.AllOrders;
 import main.sun.bld.server.order.service.impl.OrderServiceImpl;
 import main.sun.bld.server.product.service.ProductService.impl.ProductServiceImpl;
 import net.sf.json.JSONArray;
@@ -56,12 +56,13 @@ public class OrdersServlet extends HttpServlet {
 
         if(!userName.isEmpty())
         {
-            List<Order> orderList = orderService.getAllOrdersByUserName(userName);
-            if(orderList != null)
+            List<AllOrders> allOrdersList = orderService.getAllOrders(userName);
+//            List<Order> orderList = orderService.getAllOrdersByUserName(userName);
+            if(allOrdersList != null)
             {
                 apiResponse.setCode("200");
                 apiResponse.setMsg("success");
-                apiResponse.setData(orderList);
+                apiResponse.setData(allOrdersList);
             }else
             {
                 apiResponse.setCode("201");

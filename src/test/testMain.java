@@ -49,7 +49,70 @@ public class testMain {
 //        System.out.println(df.format(new Date()));
 //        test.getAllOrders();
 //        test.getOrders();
-        test.getAddressByAddressID();
+//        test.getAddressByAddressID();
+//        test.getAllOrderByOrderIDNotRepetition();
+        test.getAllOrders3();
+    }
+
+    public void getAllOrders3()
+    {
+        String userName = "18459159891";
+        List<AllOrders> allOrdersList = orderService.getAllOrders(userName);
+        JSONArray jsonArray = JSONArray.fromObject(allOrdersList);
+        System.out.println(jsonArray);
+    }
+
+    public void getAllOrderByOrderID()
+    {
+    }
+
+    public void getAllOrderByOrderIDNotRepetition()
+    {
+        List<Order> orderList = new ArrayList<Order>();
+        orderList = orderService.getAllOrderByOrderIDNotRepetition();
+
+        List<AllOrders> allOrdersList = new ArrayList<AllOrders>();
+        for(Order order : orderList)
+        {
+            List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+            System.out.println("******************************************************");
+//            System.out.println(order.getOrderID());
+            List<Order> orderList2 = orderService.getAllOrderByOrderID(order.getOrderID());
+            Address address = addressService.getAddressByAddressID(order.getAddressID());
+            for(Order order2 : orderList2)
+            {
+//                System.out.println(order2.getProductID());
+                Product product = productService.getProductByProductID(order2.getProductID());
+//                System.out.println(product.getProductID());
+                OrderProduct orderProduct = new OrderProduct();
+                orderProduct.setBuyNumber(order2.getBuyNumber());
+                orderProduct.setProductID(product.getProductID());
+                orderProduct.setProductName(product.getProductName());
+                orderProduct.setProductImg(product.getProductImg());
+                orderProduct.setPrice(product.getPrice());
+                orderProduct.setProductDetail(product.getProductDetail());
+
+                orderProductList.add(orderProduct);
+                JSONArray jsonArray2 = JSONArray.fromObject(orderProductList);
+                System.out.println("json2" + jsonArray2);
+            }
+            AllOrders orders = new AllOrders();
+            orders.setOrderTime(order.getOrderTime());
+            orders.setOrderID(order.getOrderID());
+            orders.setRecipients(address.getRecipients());
+            orders.setAddress(address.getAddress());
+            orders.setOrderState(order.getOrderState());
+            orders.setOrderProductList(orderProductList);
+
+            allOrdersList.add(orders);
+
+//            System.out.println("******************************************************");
+        }
+
+//        JSONObject json = JSONObject.fromObject(allOrdersList);
+        JSONArray jsonArray = JSONArray.fromObject(allOrdersList);
+        System.out.println(jsonArray);
+
     }
 
     public void getAddressByAddressID()
@@ -64,6 +127,11 @@ public class testMain {
         String orderID = "000000005abde16d015abdef466b0003";
         Order order = orderService.getOrderByUserNameAndOrderID(userName, orderID);
         System.out.println(order.getOrderID() + " " + order.getOrderState());
+    }
+
+    public void getAllOrders2()
+    {
+
     }
 
     public void getAllOrders()

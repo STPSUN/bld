@@ -1,6 +1,7 @@
 package main.sun.bld.server.order.service;
 
 import main.sun.bld.server.order.model.AddOrder;
+import main.sun.bld.server.order.model.AllOrders;
 import main.sun.bld.server.order.model.Order;
 
 import java.util.List;
@@ -13,6 +14,12 @@ public interface OrderService {
 
     public List<Order> getAllOrdersByUserName(String userName);
 
+    public List<Order> getAllOrderByOrderID(String orderID);
+
     public Order getOrderByUserNameAndOrderID(String userName, String orderID);
+
+    public List<Order> getAllOrderByOrderIDNotRepetition();
+
+    public List<AllOrders> getAllOrders(String userName);
 
 }

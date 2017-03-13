@@ -21,7 +21,7 @@ public class CartImpl implements CartDao{
         Connection connection = ConnectionJdbc.connectionJdbc();
         PreparedStatement ps = null;
         String sql = "insert into cart(categorys, price, repertory, product_detail, buy_number," +
-                "product_name, product_img, user_name) values(?,?,?,?,?,?,?,?)";
+                "product_name, product_img, user_name,product_id) values(?,?,?,?,?,?,?,?,?)";
 
         try
         {
@@ -34,6 +34,7 @@ public class CartImpl implements CartDao{
             ps.setString(6, cart.getProductName());
             ps.setString(7, cart.getProductImg());
             ps.setString(8, cart.getUserName());
+            ps.setInt(9, cart.getProductID());
 
             result = ps.executeUpdate() == 1 ? true : false;
         }catch (SQLException e)
