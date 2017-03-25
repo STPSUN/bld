@@ -23,4 +23,10 @@ public interface ProductDao {
     public Product getProductByProductID(int productID);
 
     public Product getProductByProductName(String productName);
+
+    public List<Product> getAllProductByLikeName(String productName);
+
+    public void deleteProductByID(int productID);
+
+    public void updateProduct(Product product);
 }

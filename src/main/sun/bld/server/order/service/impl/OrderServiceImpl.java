@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService{
         String orderID = uuid.generate();
         SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
         String orderTime = df.format(new Date());
-        String orderState = "未发货";
+        String orderState = "1";
         String userName = addOrder.getUserName();
         int adderssID = addOrder.getAddressID();
 
@@ -102,6 +102,7 @@ public class OrderServiceImpl implements OrderService{
 //                    if(order2.getUserName().equals(userName))
 //                    {
                     Product product = productService.getProductByProductID(order2.getProductID());
+//                    System.out.println(order2.getProductID());
 //                System.out.println(product.getProductID());
                     OrderProduct orderProduct = new OrderProduct();
                     orderProduct.setBuyNumber(order2.getBuyNumber());
@@ -144,6 +145,72 @@ public class OrderServiceImpl implements OrderService{
             }
 
         return allOrdersList;
+    }
+
+    public List<AllOrders> getAllOrdersByUserNameAndState(String userName, String orderState)
+    {
+        List<Order> orderList = new ArrayList<Order>();
+//        orderList = orderService.getAllOrderByOrderIDNotRepetition();
+        //获取不同的订单
+        orderList = getAllOrderByOrderIDNotRepetition();
+
+        AddressServiceImpl addressService = new AddressServiceImpl();
+        ProductServiceImpl productService = new ProductServiceImpl();
+
+        List<AllOrders> allOrdersList = new ArrayList<AllOrders>();
+        //遍历不同的订单
+        for(Order order : orderList)
+        {
+//            System.out.println(order.getOrderState());
+            if(order.getUserName().equals(userName) && order.getOrderState().equals(orderState))
+            {
+                System.out.println("state:" + order.getOrderState());
+                List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+//            System.out.println("******************************************************");
+//            System.out.println(order.getOrderID());
+//            List<Order> orderList2 = orderService.getAllOrderByOrderID(order.getOrderID());
+                //根据订单号，遍历出所有该订单号的订单
+                List<Order> orderList2 = getAllOrderByOrderID(order.getOrderID());
+                Address address = addressService.getAddressByAddressID(order.getAddressID());
+                //遍历某一订单号的所有订单
+                for(Order order2 : orderList2)
+                {
+                    //判断该订单是否是某一用户
+                    Product product = productService.getProductByProductID(order2.getProductID());
+                    OrderProduct orderProduct = new OrderProduct();
+                    orderProduct.setBuyNumber(order2.getBuyNumber());
+                    orderProduct.setProductID(product.getProductID());
+                    orderProduct.setProductName(product.getProductName());
+                    orderProduct.setProductImg(product.getProductImg());
+                    orderProduct.setPrice(product.getPrice());
+                    orderProduct.setProductDetail(product.getProductDetail());
+
+                    orderProductList.add(orderProduct);
+                }
+
+                AllOrders orders = new AllOrders();
+                orders.setOrderTime(order.getOrderTime());
+                orders.setOrderID(order.getOrderID());
+                orders.setRecipients(address.getRecipients());
+                orders.setAddress(address.getAddress());
+                orders.setOrderState(order.getOrderState());
+                orders.setOrderProductList(orderProductList);
+
+                allOrdersList.add(orders);
+            }
+        }
+
+        return allOrdersList;
+    }
+
+    public void modifyOrderStateByOrderID(String orderID, String orderState)
+    {
+        List<Order> orderList = orderImpl.getAllOrderByOrderID(orderID);
+        for(Order order : orderList)
+        {
+            order.setOrderState(orderState);
+            orderImpl.updateOrder(order);
+        }
     }
 
 }

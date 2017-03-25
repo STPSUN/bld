@@ -180,4 +180,27 @@ public class OrderImpl implements OrderDao{
 
         return order;
     }
+
+    public void updateOrder(Order order)
+    {
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        String sql = "update orders set buy_number=?, order_state=?, address_id=? where order_id=?";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, order.getBuyNumber());
+            ps.setString(2, order.getOrderState());
+            ps.setInt(3, order.getAddressID());
+            ps.setString(4, order.getOrderID());
+
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 }

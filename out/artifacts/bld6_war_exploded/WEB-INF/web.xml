@@ -23,6 +23,10 @@
         <servlet-name>OrdersServlet</servlet-name>
         <servlet-class>main.sun.bld.server.servlet.OrdersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CommentServlet</servlet-name>
+        <servlet-class>main.sun.bld.server.servlet.CommentServlet</servlet-class>
+    </servlet>
 <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/api/users</url-pattern>
@@ -42,5 +46,9 @@
     <servlet-mapping>
         <servlet-name>OrdersServlet</servlet-name>
         <url-pattern>/api/orders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentServlet</servlet-name>
+        <url-pattern>/api/comment</url-pattern>
     </servlet-mapping>
 </web-app>

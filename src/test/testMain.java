@@ -4,6 +4,8 @@ import main.sun.bld.server.address.model.Address;
 import main.sun.bld.server.address.service.impl.AddressServiceImpl;
 import main.sun.bld.server.cart.model.Cart;
 import main.sun.bld.server.cart.service.impl.CartServiceImpl;
+import main.sun.bld.server.comment.model.Comment;
+import main.sun.bld.server.comment.service.impl.CommentServiceImpl;
 import main.sun.bld.server.order.model.*;
 import main.sun.bld.server.order.service.impl.OrderServiceImpl;
 import main.sun.bld.server.product.model.Product;
@@ -14,8 +16,11 @@ import main.sun.bld.server.user.service.impl.UserServiceImpl;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by SUN on 2017/1/20.
@@ -25,6 +30,7 @@ public class testMain {
     private CartServiceImpl cartService = new CartServiceImpl();
     private AddressServiceImpl addressService = new AddressServiceImpl();
     private OrderServiceImpl orderService = new OrderServiceImpl();
+    private CommentServiceImpl commentService = new CommentServiceImpl();
     public static void main(String[] args)
     {
         System.out.println("hello");
@@ -51,7 +57,95 @@ public class testMain {
 //        test.getOrders();
 //        test.getAddressByAddressID();
 //        test.getAllOrderByOrderIDNotRepetition();
-        test.getAllOrders3();
+//        test.getAllOrders3();
+//        test.getAllOrdersByState();
+//        test.modifyOrderState();
+//        test.whileTest();
+//        test.addComment();
+//        test.getAllComment();
+//        test.getAllProductLike();
+//        test.deleteProductID();
+        test.modifyProduct();
+    }
+
+    public void modifyProduct()
+    {
+        Product product = productService.getProductByProductID(1);
+        product.setCategorys("aaa");
+
+        productService.modifyProduct(product);
+    }
+
+    public void deleteProductID()
+    {
+        int id = 1;
+        productService.deleteProductByID(id);
+    }
+
+    public void getAllProductLike()
+    {
+        String name = "麻";
+        List<Product> productList = productService.getAllProductByLikeName(name);
+        for(Product product : productList)
+        {
+            System.out.println(product.getProductName());
+        }
+    }
+
+    public void getAllComment()
+    {
+        List<Comment> commentList = commentService.getAllCommentByProductID(3);
+
+        for (Comment comment : commentList)
+        {
+            System.out.println(comment.getProductID() + " " + comment.getCommentContent());
+        }
+    }
+
+    public void addComment()
+    {
+        Comment comment = new Comment();
+        comment.setProductID(3);
+        comment.setUserName("sun");
+        comment.setCommentContent("bbb");
+        SimpleDateFormat df = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+        String commentTime = df.format(new Date());
+        comment.setCommentTime(commentTime);
+
+        commentService.addComment(comment);
+    }
+
+    public void whileTest()
+    {
+        boolean result = true;
+        while (true)
+        {
+            Scanner sc = new Scanner(System.in);
+            System.out.print("in:");
+            String str = sc.next();
+            if(str.equals("q"))
+            {
+                break;
+            }
+
+        }
+    }
+
+    public void modifyOrderState()
+    {
+        String orderID = "000000005ac85d1c015ac85d1c440000";
+        String state = "1";
+        orderService.modifyOrderStateByOrderID(orderID, state);
+    }
+
+    public void getAllOrdersByState()
+    {
+        String userName = "18459159891";
+        String state = "2";
+        List<AllOrders> allOrdersList = orderService.getAllOrdersByUserNameAndState(userName, state);
+        JSONArray jsonArray = JSONArray.fromObject(allOrdersList);
+        System.out.println(jsonArray);
+
     }
 
     public void getAllOrders3()

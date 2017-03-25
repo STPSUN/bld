@@ -145,6 +145,9 @@ public class UserServlet extends HttpServlet {
         apiResponse.setMsg("success");
         apiResponse.setData(userList);
 
+        request.setAttribute("userList", userList);
+        request.getRequestDispatcher("/jsp/user.jsp").forward(request, response);
+
     }
 
     private void toUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -186,11 +189,17 @@ public class UserServlet extends HttpServlet {
 
         JSONObject json = JSONObject.fromObject(apiResponse);
 
-        System.out.println("userName:" + userName);
-        System.out.println("password:" + password);
-        System.out.println("data:" + json);
-        request.setAttribute("login", json);
-        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+//        System.out.println("userName:" + userName);
+//        System.out.println("password:" + password);
+//        System.out.println("data:" + json);
+        if(userName.equals("admin"))
+        {
+            request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+        }else
+        {
+            request.setAttribute("login", json);
+            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+        }
     }
 
     private void doRetrieve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

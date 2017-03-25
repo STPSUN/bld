@@ -17,4 +17,6 @@ public interface OrderDao {
     public Order getOrderByUserNameAndOrderID(String userName, String orderID);
 
     public List<Order> getAllOrdersByOrderIDNotRepetition();
+
+    public void updateOrder(Order order);
 }

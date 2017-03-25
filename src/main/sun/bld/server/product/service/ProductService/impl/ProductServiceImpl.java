@@ -66,4 +66,22 @@ public class ProductServiceImpl implements ProductService {
 
         return product;
     }
+
+    public List<Product> getAllProductByLikeName(String productName)
+    {
+        List<Product> productList = new ArrayList<Product>();
+        productList = productImpl.getAllProductByLikeName(productName);
+
+        return productList;
+    }
+
+    public void deleteProductByID(int productiD)
+    {
+        productImpl.deleteProductByID(productiD);
+    }
+
+    public void modifyProduct(Product product)
+    {
+        productImpl.updateProduct(product);
+    }
 }

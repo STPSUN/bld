@@ -121,6 +121,42 @@ public class ProductImpl implements ProductDao{
         return productList;
     }
 
+    public List<Product> getAllProductByLikeName(String productName)
+    {
+        List<Product> productList = new ArrayList<Product>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        String sql = "select * from product where product_name LIKE '%" + productName + "%'";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Product product = new Product();
+                product.setProductName(rs.getString("product_name"));
+                product.setCategorys(rs.getString("categorys"));
+                product.setProductState(rs.getString("product_state"));
+                product.setProductID(rs.getInt("product_id"));
+                product.setPrice(rs.getDouble("price"));
+                product.setProductNumber(rs.getInt("product_number"));
+                product.setProductDetail(rs.getString("product_detail"));
+                product.setProductImg(rs.getString("product_img"));
+                product.setCategorysImg(rs.getString("categorys_img"));
+
+                productList.add(product);
+            }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return productList;
+    }
+
     public boolean addProduct(Product product)
     {
         boolean result = false;
@@ -253,6 +289,55 @@ public class ProductImpl implements ProductDao{
         }
 
         return product;
+    }
+
+    public void deleteProductByID(int productID)
+    {
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        String sql = "delete from product where product_id=?";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+            ps.close();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateProduct(Product product)
+    {
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        String sql = "update product set categorys=?,product_name=?,price=?," +
+                "product_number=?,product_detail=?,product_img=?," +
+                "product_state=?,categorys_img=? where product_id=?";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, product.getCategorys());
+            ps.setString(2, product.getProductName());
+            ps.setDouble(3, product.getPrice());
+            ps.setInt(4, product.getProductNumber());
+            ps.setString(5, product.getProductDetail());
+            ps.setString(6, product.getProductImg());
+            ps.setString(7, product.getProductState());
+            ps.setString(8, product.getCategorysImg());
+            ps.setInt(9, product.getProductID());
+
+            ps.executeUpdate();
+            ps.close();
+
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -22,4 +22,8 @@ public interface OrderService {
 
     public List<AllOrders> getAllOrders(String userName);
 
+    public List<AllOrders> getAllOrdersByUserNameAndState(String userName, String orderState);
+
+    public void modifyOrderStateByOrderID(String orderID, String orderState);
+
 }
