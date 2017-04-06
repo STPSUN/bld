@@ -36,11 +36,32 @@ public class CommentServlet extends HttpServlet {
         {
             doGetAllComment(request, response);
         }
+        if(action.equals("commentListPC"))
+        {
+            doCommentListPC(request, response);
+        }
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
+    }
+
+    private void doCommentListPC(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        try
+        {
+            List<Comment> commentList = commentService.getAllComment();
+            if(commentList != null)
+            {
+                request.setAttribute("commentList", commentList);
+                request.getRequestDispatcher("/jsp/commentListPC.jsp").forward(request, response);
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     private void doGetAllComment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

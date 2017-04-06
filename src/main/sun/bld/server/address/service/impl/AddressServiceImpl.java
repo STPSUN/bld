@@ -23,6 +23,13 @@ public class AddressServiceImpl implements AddressService{
         return addressList;
     }
 
+    public List<Address> getAllAddress()
+    {
+        List<Address> addressList = addressImpl.getAllAddress();
+
+        return addressList;
+    }
+
     public void deleteAddressByUserNameAndAddressID(String userName, int addressID)
     {
         addressImpl.deleteAddressByUserNameAndAddressID(userName, addressID);

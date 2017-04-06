@@ -35,6 +35,7 @@ public class OrderImpl implements OrderDao{
 
             ps.executeUpdate();
             ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -68,6 +69,46 @@ public class OrderImpl implements OrderDao{
 
                 orderList.add(order);
             }
+
+            ps.close();
+            connection.close();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return orderList;
+    }
+
+    public List<Order> getAllOrders()
+    {
+        List<Order> orderList = new ArrayList<Order>();
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "select * from orders";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Order order = new Order();
+                order.setUserName(rs.getString("user_name"));
+                order.setOrderID(rs.getString("order_id"));
+                order.setProductID(rs.getInt("product_id"));
+                order.setOrderTime(rs.getString("order_time"));
+                order.setOrderState(rs.getString("order_state"));
+                order.setBuyNumber(rs.getInt("buy_number"));
+                order.setAddressID(rs.getInt("address_id"));
+
+                orderList.add(order);
+            }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -103,6 +144,9 @@ public class OrderImpl implements OrderDao{
 
                 orderList.add(order);
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -140,6 +184,8 @@ public class OrderImpl implements OrderDao{
                 orderList.add(order);
             }
 
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -173,6 +219,9 @@ public class OrderImpl implements OrderDao{
                 order.setOrderState(rs.getString("order_state"));
                 order.setAddressID(rs.getInt("address_id"));
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -197,6 +246,7 @@ public class OrderImpl implements OrderDao{
 
             ps.executeUpdate();
             ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();

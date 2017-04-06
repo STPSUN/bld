@@ -53,6 +53,13 @@ public class OrderServiceImpl implements OrderService{
         return orderList;
     }
 
+    public List<Order> getAllOrders()
+    {
+        List<Order> orderList = orderImpl.getAllOrders();
+
+        return orderList;
+    }
+
     public List<Order> getAllOrderByOrderID(String orderID)
     {
         List<Order> orderList = orderImpl.getAllOrderByOrderID(orderID);
@@ -84,9 +91,67 @@ public class OrderServiceImpl implements OrderService{
 
         List<AllOrders> allOrdersList = new ArrayList<AllOrders>();
         //遍历不同的订单
+        try
+        {
+            for(Order order : orderList)
+            {
+                if(order.getUserName().equals(userName))
+                {
+                    List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+                    //根据订单号，遍历出所有该订单号的订单
+                    List<Order> orderList2 = getAllOrderByOrderID(order.getOrderID());
+                    Address address = addressService.getAddressByAddressID(order.getAddressID());
+                    //遍历某一订单号的所有订单
+                    for(Order order2 : orderList2)
+                    {
+                        //判断该订单是否是某一用户
+                        Product product = productService.getProductByProductID(order2.getProductID());
+                        OrderProduct orderProduct = new OrderProduct();
+                        orderProduct.setBuyNumber(order2.getBuyNumber());
+                        orderProduct.setProductID(product.getProductID());
+                        orderProduct.setProductName(product.getProductName());
+                        orderProduct.setProductImg(product.getProductImg());
+                        orderProduct.setPrice(product.getPrice());
+                        orderProduct.setProductDetail(product.getProductDetail());
+
+                        orderProductList.add(orderProduct);
+                    }
+
+                    AllOrders orders = new AllOrders();
+                    orders.setOrderTime(order.getOrderTime());
+                    orders.setOrderID(order.getOrderID());
+                    orders.setRecipients(address.getRecipients());
+                    orders.setAddress(address.getAddress());
+                    orders.setOrderState(order.getOrderState());
+                    orders.setOrderProductList(orderProductList);
+
+                    allOrdersList.add(orders);
+                }
+
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return allOrdersList;
+    }
+
+    public List<AllOrders> getAllOrdersByID(String ordersID)
+    {
+        List<Order> orderList = new ArrayList<Order>();
+//        orderList = orderService.getAllOrderByOrderIDNotRepetition();
+        //获取不同的订单
+        orderList = getAllOrderByOrderIDNotRepetition();
+
+        AddressServiceImpl addressService = new AddressServiceImpl();
+        ProductServiceImpl productService = new ProductServiceImpl();
+
+        List<AllOrders> allOrdersList = new ArrayList<AllOrders>();
+        //遍历不同的订单
         for(Order order : orderList)
         {
-            if(order.getUserName().equals(userName))
+            if(order.getOrderID().equals(ordersID))
             {
                 List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
 //            System.out.println("******************************************************");
@@ -142,7 +207,102 @@ public class OrderServiceImpl implements OrderService{
 //                    }
 //                System.out.println(order2.getProductID());
 
+        }
+
+        return allOrdersList;
+    }
+
+    public List<AllOrders> getAllOrdersPC()
+    {
+        List<Order> orderList = new ArrayList<Order>();
+//        orderList = orderService.getAllOrderByOrderIDNotRepetition();
+        //获取不同的订单
+        orderList = getAllOrderByOrderIDNotRepetition();
+
+        AddressServiceImpl addressService = new AddressServiceImpl();
+        ProductServiceImpl productService = new ProductServiceImpl();
+
+        List<AllOrders> allOrdersList = new ArrayList<AllOrders>();
+        //遍历不同的订单
+        for(Order order : orderList)
+        {
+//            if(order.getUserName().equals(userName))
+            {
+                List<OrderProduct> orderProductList = new ArrayList<OrderProduct>();
+//            System.out.println("******************************************************");
+//            System.out.println(order.getOrderID());
+//            List<Order> orderList2 = orderService.getAllOrderByOrderID(order.getOrderID());
+                //根据订单号，遍历出所有该订单号的订单
+                List<Order> orderList2 = getAllOrderByOrderID(order.getOrderID());
+                Address address = addressService.getAddressByAddressID(order.getAddressID());
+                //遍历某一订单号的所有订单
+                for(Order order2 : orderList2)
+                {
+                    //判断该订单是否是某一用户
+//                    if(order2.getUserName().equals(userName))
+//                    {
+                    Product product = productService.getProductByProductID(order2.getProductID());
+//                    System.out.println(order2.getProductID());
+//                System.out.println(product.getProductID());
+                    OrderProduct orderProduct = new OrderProduct();
+                    orderProduct.setBuyNumber(order2.getBuyNumber());
+                    orderProduct.setProductID(product.getProductID());
+                    orderProduct.setProductName(product.getProductName());
+                    orderProduct.setProductImg(product.getProductImg());
+                    orderProduct.setPrice(product.getPrice());
+                    orderProduct.setProductDetail(product.getProductDetail());
+
+                    orderProductList.add(orderProduct);
+//                JSONArray jsonArray2 = JSONArray.fromObject(orderProductList);
+//                System.out.println("json2" + jsonArray2);
+
+
+                }
+
+                try
+                {
+                    AllOrders orders = new AllOrders();
+                    orders.setOrderTime(order.getOrderTime());
+//                System.out.println("ordersID:" + order.getOrderID());
+                    orders.setOrderID(order.getOrderID());
+//                System.out.println("rec:" + address.getRecipients());
+                    orders.setRecipients(address.getRecipients());
+                    orders.setAddress(address.getAddress());
+                    orders.setOrderState(order.getOrderState());
+                    orders.setOrderProductList(orderProductList);
+
+                    allOrdersList.add(orders);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+//                AllOrders orders = new AllOrders();
+//                orders.setOrderTime(order.getOrderTime());
+////                System.out.println("ordersID:" + order.getOrderID());
+//                orders.setOrderID(order.getOrderID());
+////                System.out.println("rec:" + address.getRecipients());
+//                orders.setRecipients(address.getRecipients());
+//                orders.setAddress(address.getAddress());
+//                orders.setOrderState(order.getOrderState());
+//                orders.setOrderProductList(orderProductList);
+//
+//                allOrdersList.add(orders);
             }
+
+//                    AllOrders orders = new AllOrders();
+//                    orders.setOrderTime(order.getOrderTime());
+//                    orders.setOrderID(order.getOrderID());
+//                    orders.setRecipients(address.getRecipients());
+//                    orders.setAddress(address.getAddress());
+//                    orders.setOrderState(order.getOrderState());
+//                    orders.setOrderProductList(orderProductList);
+//
+//                    allOrdersList.add(orders);
+//                    }
+//                System.out.println(order2.getProductID());
+
+        }
 
         return allOrdersList;
     }

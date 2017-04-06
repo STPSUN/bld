@@ -12,6 +12,8 @@ public interface OrderDao {
 
     public List<Order> getAllOrdersByUserName(String userName);
 
+    public List<Order> getAllOrders();
+
     public List<Order> getAllOrderByOrderID(String orderID);
 
     public Order getOrderByUserNameAndOrderID(String userName, String orderID);

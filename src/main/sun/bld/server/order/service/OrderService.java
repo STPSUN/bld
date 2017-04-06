@@ -14,6 +14,8 @@ public interface OrderService {
 
     public List<Order> getAllOrdersByUserName(String userName);
 
+    public List<Order> getAllOrders();
+
     public List<Order> getAllOrderByOrderID(String orderID);
 
     public Order getOrderByUserNameAndOrderID(String userName, String orderID);
@@ -21,6 +23,10 @@ public interface OrderService {
     public List<Order> getAllOrderByOrderIDNotRepetition();
 
     public List<AllOrders> getAllOrders(String userName);
+
+    public List<AllOrders> getAllOrdersByID(String ordersID);
+
+    public List<AllOrders> getAllOrdersPC();
 
     public List<AllOrders> getAllOrdersByUserNameAndState(String userName, String orderState);
 

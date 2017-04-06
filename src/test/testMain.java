@@ -65,7 +65,60 @@ public class testMain {
 //        test.getAllComment();
 //        test.getAllProductLike();
 //        test.deleteProductID();
-        test.modifyProduct();
+//        test.modifyProduct();
+//        test.getAllAddress();
+//        test.getAllOrders11();
+//        test.getAllOrdersPC();
+//        test.getOrdersByID();
+        test.getComment();
+    }
+
+    public void getComment()
+    {
+        List<Comment> commentList = commentService.getAllComment();
+        for(Comment comment : commentList)
+        {
+            System.out.println(comment.getProductID());
+        }
+    }
+
+    public void getOrdersByID()
+    {
+        String id = "000000005b06dec0015b105ba06d0002";
+        List<AllOrders> allOrdersList = orderService.getAllOrdersByID(id);
+        for(AllOrders allOrders : allOrdersList)
+        {
+            System.out.println(allOrders.getOrderID());
+        }
+    }
+
+    public void getAllOrdersPC()
+    {
+        List<AllOrders> allOrdersList = orderService.getAllOrdersPC();
+        for(AllOrders allOrders : allOrdersList)
+        {
+            System.out.println(allOrders.getOrderID());
+        }
+    }
+
+    public void getAllOrders11()
+    {
+        List<Order> orderList = orderService.getAllOrders();
+
+        for(Order order : orderList)
+        {
+            System.out.println(order.getUserName());
+        }
+    }
+
+    public void getAllAddress()
+    {
+        List<Address> addressList = addressService.getAllAddress();
+
+        for(Address address : addressList)
+        {
+            System.out.println(address.getAddressID());
+        }
     }
 
     public void modifyProduct()

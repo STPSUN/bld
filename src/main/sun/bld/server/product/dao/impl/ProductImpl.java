@@ -45,6 +45,9 @@ public class ProductImpl implements ProductDao{
                 productList.add(product);
 
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -75,6 +78,9 @@ public class ProductImpl implements ProductDao{
                 productCategoryses.add(productCategorys);
 
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -113,6 +119,9 @@ public class ProductImpl implements ProductDao{
                 productList.add(product);
 
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -149,6 +158,9 @@ public class ProductImpl implements ProductDao{
 
                 productList.add(product);
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -178,6 +190,9 @@ public class ProductImpl implements ProductDao{
             ps.setString(8, product.getCategorysImg());
 
             result = ps.executeUpdate() == 1 ? true : false;
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -216,6 +231,9 @@ public class ProductImpl implements ProductDao{
                 productList.add(product);
 
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -249,6 +267,9 @@ public class ProductImpl implements ProductDao{
                 product.setProductState(rs.getString("product_state"));
                 product.setCategorysImg(rs.getString("categorys_img"));
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -283,6 +304,9 @@ public class ProductImpl implements ProductDao{
                 product.setProductState(rs.getString("product_state"));
                 product.setCategorysImg(rs.getString("categorys_img"));
             }
+
+            ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -303,6 +327,7 @@ public class ProductImpl implements ProductDao{
             ps.setInt(1, productID);
             ps.executeUpdate();
             ps.close();
+            connection.close();
         }catch (SQLException e)
         {
             e.printStackTrace();
@@ -333,6 +358,7 @@ public class ProductImpl implements ProductDao{
 
             ps.executeUpdate();
             ps.close();
+            connection.close();
 
         }catch (SQLException e)
         {

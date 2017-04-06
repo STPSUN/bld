@@ -73,6 +73,38 @@ public class AddressImpl implements AddressDao{
         return addressList;
     }
 
+    public List<Address> getAllAddress()
+    {
+        List<Address> addressList = new ArrayList<Address>();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        String sql = "select * from address";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Address address = new Address();
+                address.setAddressID(rs.getInt("address_id"));
+                address.setAddress(rs.getString("address"));
+                address.setUserName(rs.getString("user_name"));
+                address.setRecipients(rs.getString("recipients"));
+                address.setPostcode(rs.getString("postcode"));
+
+                addressList.add(address);
+            }
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return addressList;
+    }
+
     public Address getAddressByAddressID(int addressID)
     {
         Address address = null;

@@ -11,4 +11,6 @@ public interface CommentService {
     public void addComment(Comment comment);
 
     public List<Comment> getAllCommentByProductID(int productID);
+
+    public List<Comment> getAllComment();
 }

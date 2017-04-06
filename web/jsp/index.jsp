@@ -247,12 +247,6 @@
             <form class="form" action="users">
                 <input type="hidden" name="action" value="doUserList">
             <button type="submit">用户列表</button>
-        <%--<div>--%>
-            <%--<li><a class="a" href="productLIstPC.jsp">用户列表2</a></li>--%>
-            <%--<a href="../jsp/user.jsp"><h2>用户管理</h2>--%>
-            <%--</a>--%>
-            <%--<li><a class="a" href="javascript:void(0);"--%>
-                   <%--onClick="openurl('uservideoQuery.html');">用户列表</a></li>--%>
             </form>
         </div>
 
@@ -266,10 +260,6 @@
                 <li>
                         <input type="hidden" name="action" value="productListPC">
                         <button type="submit">产品列表</button>
-                        <%--<a class="a" href="javascript:void(0);"--%>
-                       <%--onClick="openurl('documentQuery.html');">查看所有文档</a></li>--%>
-                <%--<li><a class="a" href="javascript:void(0);"--%>
-                       <%--onClick="openurl('userdocumentQuery.html');">用户文档列表</a></li>--%>
             </ul>
                 </form>
         </div>
@@ -278,23 +268,26 @@
             地址管理
         </div>
         <div class="div3">
-            <ul>
-                <li><a class="a" href="javascript:void(0);"
-                       onClick="openurl('classQuery.html');">大类信息</a></li>
-
-            </ul>
+            <form class="form" action="address">
+                <input type="hidden" name="action" value="doAddressListPC">
+                <button type="submit">地址列表</button>
+            </form>
         </div>
         <div class="div2">
             <div class="yhgl"></div>
             订单管理
         </div>
         <div class="div3">
-            <ul>
-                <li><a class="a" href="javascript:void(0);"
-                       onClick="openurl('studentQuery.html');">学生管理</a></li>
-                <li><a class="a" href="javascript:void(0);"
-                       onClick="openurl('teacherQuery.html');">老师管理</a></li>
-            </ul>
+            <form class="form" action="orders">
+                <input type="hidden" name="action" value="ordersListPC">
+                <button type="submit">订单列表</button>
+            </form>
+            <%--<ul>--%>
+                <%--<li><a class="a" href="javascript:void(0);"--%>
+                       <%--onClick="openurl('studentQuery.html');">学生管理</a></li>--%>
+                <%--<li><a class="a" href="javascript:void(0);"--%>
+                       <%--onClick="openurl('teacherQuery.html');">老师管理</a></li>--%>
+            <%--</ul>--%>
         </div>
 
         <div class="div2">
@@ -303,12 +296,17 @@
         </div>
         <div class="div3">
 
-            <ul>
-                <li><a class="a" href="javascript:void(0);"
-                       onClick="openurl('deletecomment.html');">评价删除</a></li>
-                <li><a class="a" href="javascript:void(0);"
-                       onClick="openurl('useredit.html');">用户禁言</a></li>
-            </ul>
+            <form class="form" action="comment">
+                <input type="hidden" name="action" value="commentListPC">
+                <button type="submit">评价列表</button>
+            </form>
+
+            <%--<ul>--%>
+                <%--<li><a class="a" href="javascript:void(0);"--%>
+                       <%--onClick="openurl('deletecomment.html');">评价删除</a></li>--%>
+                <%--<li><a class="a" href="javascript:void(0);"--%>
+                       <%--onClick="openurl('useredit.html');">用户禁言</a></li>--%>
+            <%--</ul>--%>
 
         </div>
         <%--<div class="div2">--%>
@@ -323,7 +321,7 @@
                        <%--onClick="openurl('afficheAdd.html');">添加公告</a></li>--%>
             <%--</ul>--%>
         <%--</div>--%>
-        <a class="a1" href="login.html"><div class="div2">
+        <a class="a1" href="../login.jsp"><div class="div2">
             <div class="tcht"></div>
             退出后台
         </div></a>

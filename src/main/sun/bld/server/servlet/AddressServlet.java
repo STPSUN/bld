@@ -35,15 +35,34 @@ public class AddressServlet extends HttpServlet {
         {
             doGetAllAddress(request, response);
         }
+        if("getAllAddressPC".equals(action))
+        {
+            doGetAllAddressPC(request, response);
+        }
         if("deleteAddress".equals(action))
         {
             doDeleteAddress(request, response);
+        }
+        if("doAddressListPC".equals(action))
+        {
+            doAddressListPC(request, response);
         }
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
+    }
+
+    private void doAddressListPC(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        List<Address> addressList = addressService.getAllAddress();
+        if(addressList != null)
+        {
+            request.setAttribute("addressList", addressList);
+            request.getRequestDispatcher("/jsp/addressListPC.jsp").forward(request, response);
+        }
+
     }
 
     private void doDeleteAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -68,6 +87,19 @@ public class AddressServlet extends HttpServlet {
         JSONObject json = JSONObject.fromObject(apiResponse);
         request.setAttribute("deleteAddress", json);
         request.getRequestDispatcher("/WEB-INF/pages/deleteAddress.jsp").forward(request, response);
+    }
+
+    private void doGetAllAddressPC(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String userName = request.getParameter("userName");
+
+        List<Address> addressList = addressService.getAllAddress();
+        if(!userName.isEmpty())
+        {
+            addressList = addressService.getAllAddressByUserName(userName);
+        }
+        request.setAttribute("addressList", addressList);
+        request.getRequestDispatcher("/jsp/addressListPC.jsp").forward(request, response);
     }
 
     private void doGetAllAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -120,8 +152,6 @@ public class AddressServlet extends HttpServlet {
 
             apiResponse.setCode("200");
             apiResponse.setMsg("success");
-
-
 
         }else
         {

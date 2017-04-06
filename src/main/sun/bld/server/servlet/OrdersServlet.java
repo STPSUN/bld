@@ -44,9 +44,17 @@ public class OrdersServlet extends HttpServlet {
         {
             doGetAllOrders(request, response);
         }
+        if(action.equals("ordersListPC"))
+        {
+            doOrdersListPC(request, response);
+        }
         if(action.equals("getAllOrdersByState"))
         {
             doGetAllOrdersByState(request, response);
+        }
+        if(action.equals("getOrdersByID"))
+        {
+            doGetOrdersByID(request, response);
         }
         if(action.equals("modifyOrderState"))
         {
@@ -119,6 +127,49 @@ public class OrdersServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/pages/getAllOrderState.jsp").forward(request, response);
     }
 
+    private void doGetOrdersByID(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String ordersID = request.getParameter("ordersID");
+        List<AllOrders> allOrdersList = orderService.getAllOrdersPC();
+        if(!ordersID.isEmpty())
+        {
+            List<AllOrders> allOrdersList2 = new ArrayList<AllOrders>();
+            try
+            {
+                allOrdersList2 = orderService.getAllOrdersByID(ordersID);
+                JSONArray jsonArray = JSONArray.fromObject(allOrdersList2);
+                System.out.println(jsonArray);
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            if(allOrdersList2 != null)
+            {
+                request.setAttribute("ordersList", allOrdersList2);
+                request.getRequestDispatcher("/jsp/ordersListPC.jsp").forward(request, response);
+            }else
+            {
+                request.setAttribute("ordersList", allOrdersList);
+                request.getRequestDispatcher("/jsp/ordersListPC.jsp").forward(request, response);
+            }
+        }
+
+
+    }
+
+    private void doOrdersListPC(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        List<AllOrders> allOrdersList = orderService.getAllOrdersPC();
+        if(allOrdersList != null)
+        {
+//            JSONArray json = JSONArray.fromObject(allOrdersList);
+//            System.out.println(json);
+            request.setAttribute("ordersList", allOrdersList);
+            request.getRequestDispatcher("/jsp/ordersListPC.jsp").forward(request, response);
+        }
+
+    }
+
     private void doGetAllOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String userName = request.getParameter("userName");
@@ -161,8 +212,13 @@ public class OrdersServlet extends HttpServlet {
 //        System.out.println("data:" + data1);
 //        JSONArray data = JSONArray.fromObject(data1);
         String jsonStr = request.getParameter("jsonString");
+        System.out.println("jsonString" + jsonStr);
+        System.out.println("*************************************************");
         JSONObject json2 = JSONObject.fromObject(jsonStr);
+        System.out.println("json" + json2);
+        System.out.println("*************************************************");
         String userName = json2.getString("userName");
+        System.out.println("name:" + userName);
         int addressID= json2.getInt("addressID");
         String data1 = json2.getString("data");
         JSONArray data = JSONArray.fromObject(data1);

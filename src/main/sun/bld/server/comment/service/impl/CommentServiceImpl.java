@@ -22,4 +22,11 @@ public class CommentServiceImpl implements CommentService{
 
         return commentList;
     }
+
+    public List<Comment> getAllComment()
+    {
+        List<Comment> commentList = commentImpl.getAllComment();
+
+        return commentList;
+    }
 }

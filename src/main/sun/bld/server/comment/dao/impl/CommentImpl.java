@@ -68,4 +68,37 @@ public class CommentImpl implements CommentDao{
 
         return commentList;
     }
+
+    public List<Comment> getAllComment()
+    {
+        List<Comment> commentList = new ArrayList<Comment>();
+        Connection connection = ConnectionJdbc.connectionJdbc();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from comment";
+
+        try
+        {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next())
+            {
+                Comment comment = new Comment();
+                comment.setProductID(rs.getInt("product_id"));
+                comment.setUserName(rs.getString("user_name"));
+                comment.setCommentTime(rs.getString("comment_time"));
+                comment.setCommentContent(rs.getString("comment_content"));
+
+                commentList.add(comment);
+            }
+
+            ps.close();
+            connection.close();
+        }catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return commentList;
+    }
 }
